@@ -1,26 +1,24 @@
 {
-    "id": "8A1EFC5C",
-    "path": "~/GitHub/CDFW_Bag_Limits/Code/3_Make_OM_SS.R",
+    "id": "3D992B50",
+    "path": "~/GitHub/CDFW_Bag_Limits/Code/4_MP_Design.R",
     "project_path": null,
     "type": "r_source",
     "hash": "0",
     "contents": "",
     "dirty": false,
-    "created": 1680207493153.0,
+    "created": 1680207661292.0,
     "source_on_save": false,
-    "relative_order": 6,
+    "relative_order": 7,
     "properties": {
         "source_window_id": "",
-        "Source": "Source",
-        "cursorPosition": "89,20",
-        "scrollLine": "68"
+        "Source": "Source"
     },
     "folds": "",
-    "lastKnownWriteTime": 1680207565,
+    "lastKnownWriteTime": 1680190832,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1680207565340,
+    "last_content_update": 1680190832,
     "read_only": false,
     "read_only_alternatives": []
 }

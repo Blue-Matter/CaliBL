@@ -1,0 +1,16 @@
+{
+    "dialog-state": {
+        "query": "PA_OM_1",
+        "path": "C:/Users/tcarruth/Documents/GitHub/AnchovetaMSE",
+        "regex": false,
+        "caseSensitive": false,
+        "wholeWord": false,
+        "filePatterns": [],
+        "useGitGrep": false,
+        "excludeGitIgnore": true,
+        "excludeFilePatterns": [],
+        "resultsCount": 8,
+        "errorCount": 0,
+        "replaceErrors": ""
+    }
+}

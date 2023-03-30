@@ -12,13 +12,13 @@
 library(openMSE)
 library(r4ss)
 library(abind)
-setwd("C:/GitHub/CDFW_Bag_Limits") # setwd("C:/Users/tcarruth/Documents/GitHub/CDFW_Bag_Limits") 
+setwd("C:/GitHub/CDFW_Bag_Limits") # setwd("C:/Users/tcarruth/Documents/GitHub/CDFW_Bag_Limits")
 
 
 # --- Make from SS stock assessment ---------
- 
+
 # 1 - from Julias latest upload
-MOM <- SS2MOM('./Data/SS3', nsim = 48) # need report file! 
+MOM <- SS2MOM('./Data/SS3', nsim = 48) # need report file!
 
 # 2 - Rerun Julias SS3.exe to get report files
 # can't run SS3.exe because no ss3.dat file
@@ -32,10 +32,10 @@ ProjectMOM(multiHist,MPs ="curE") # Error in VF[, p, f, , ] <- FleetPars[[p]][[f
 
 # 5 - get MOM object from previous run
 MOM = readRDS("G:/Shared drives/BM shared/1. Projects/CDFW_halibut_bag_limits/Halibut/halibut_MOM.rds")
-multiMSE(MOM) # Error in SampleStockPars(Stock = Stocks[[p]], nsim, nyears, proyears,  : 'Len_age' must be array with dimensions: nsim, maxage+1, nyears + proyears. 
+multiMSE(MOM) # Error in SampleStockPars(Stock = Stocks[[p]], nsim, nyears, proyears,  : 'Len_age' must be array with dimensions: nsim, maxage+1, nyears + proyears.
               # Warning message: Not a validObject(): no slot of name "Misc" for this object of class "Fleet"
               # only three simulations
-              # Warning message: Not a validObject(): no slot of name "AddIunits" for this object of class "Data" 
+              # Warning message: Not a validObject(): no slot of name "AddIunits" for this object of class "Data"
 
 Fnam = lapply(MOM@Fleets[[1]],function(x)x@Name)
 Snam = lapply(MOM@Stocks,function(x)x@Name)
@@ -49,7 +49,7 @@ add0age0= function(x){
     x[[slots[i]]]=arr2
   }
   x
-  
+
   # x = add0age0(MOM@cpars[[1]][[1]])
    #lapply(x,function(x)dim(x))
 }
@@ -81,7 +81,7 @@ MOM@CatchFrac # about 40% catches are from the rec fleet (applying discard rate 
 OM = readRDS("./OMs/OM.rdata")
 OM = SubCpars(OM,sims=1:64)
 
-MPCR<-readRDS("./OMs/MPCR.rda") 
+MPCR<-readRDS("./OMs/MPCR.rda")
 ncr=nrow(MPCR)
 
 Data=new('Data')

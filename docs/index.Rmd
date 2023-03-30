@@ -59,7 +59,7 @@ getprojectinfo<-function(page,addcol=F,dummy=F){
   if(addcol){
     nbk <- 100
     j = ncol(tab)
-    brks <- seq(min(tab[,j]),max(tab[,j]),length.out=nbk)
+    brks <- seq(0,100,length.out=nbk)
     y <- round(seq(255, 40, length.out = nbk + 1), 0)
     clrs <- rainbow(nbk + 1, start=0.05,end=0.3)
     dt <- DT::formatStyle(dt, j, backgroundColor = DT::styleInterval(brks, clrs))

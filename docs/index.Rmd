@@ -1,6 +1,6 @@
 
 ---
-title: "Developing Models and Code to Test Bag Limit Policies in California State Fisheries"
+title: "Developing Models for Testing Bag Limit Policies in California State Fisheries"
 author: "Tom Carruthers <tom@bluematterscience.com>"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
@@ -73,17 +73,17 @@ getprojectinfo<-function(page,addcol=F,dummy=F){
 
 ### Disclaimer
 
-The following work is currently preliminary and intended as tool for eliciting feedback on data, modelling and other aspects of implementing bag limit regulations in MSE. 
+The following work is preliminary and intended to elicit feedback on data, modelling and other aspects of implementing bag limit regulations in MSE for California state fisheries. 
 
 None of these results are final. 
 
-These analyses do not necessarily reflect the point of view of RLF, CDFW, or other funders and in no way anticipate future policy in this area.
+These analyses do not necessarily reflect the point of view of CDFW, RLF or other funders, and in no way anticipate future policy in this area.
 
 ***
 
 ### Objective
 
-Based on empirical recreational catch rate and release rate data, for at least two species of California state fisheries, develop theoretical models that predict release rates given alternative bag limit policies, and incorporate these into the open-source [openMSE](https://openmse.com/) framework for testing management procedures.  
+Based on observed recreational catch rate and release rate data, develop theoretical models for at least two species of California state fisheries that predict release rates given alternative bag limit policies, and incorporate these into the open-source [openMSE](https://openmse.com/) framework for testing management procedures.  
 
 ***
 
@@ -111,19 +111,19 @@ kable(dat,"simple",col.names=rep("",2))
 
 ### Introduction
 
-Recreational fisheries are a substantial contributor to overall fishery exploitation in a number of California State fisheries. For example, for Northern California Halibut, the recreational fishery constitutes roughly 40% of the catches in recent years. 
+Recreational fisheries are a substantial contributor to overall fishery exploitation in a number of California state fisheries. For example, over recent years the recreational fishery for Northern California Halibut constitutes roughly 40% of the total catches. 
 
-A primary management measure for recreational fisheries is individual (per angler) bag limits in addition to boat or trip limits. When evaluating the performance of alternative management policies that vary bag limits it is necessary to account for the impacts on both retained catches and biological risk due to post-release mortality. 
+Individual angler bag limits and boat limits remaing a primary management measure for recreational fisheries. When evaluating the performance of alternative management policies that vary bag limits it is necessary to account for the impacts on yields and biological risk due to post-release mortality. 
 
 CDFW has begun the process of implementing Management Strategy Evaluation for various fisheries ([CDFW 2023a - Data Limited Fisheries Management](https://wildlife.ca.gov/Conservation/Marine/Data-Limited-Fisheries), [Hordyk et al. (2017)](https://www.datalimitedtoolkit.org/wp-content/uploads/2017/07/Applying-MSE-to-CA-Fisheries-Case-Studies-Recommendations.pdf)
 , [Valencia et al. 2021](https://nrm.dfg.ca.gov/FileHandler.ashx?DocumentID=195538&inline)). 
 
-Preliminary multi-sex, multifleet operating models were developed for California Halibut using the [openMSE](www.openMSE.com) framework ([CDFW 2023b - California Halibut Enhanced Status Report](https://marinespecies.wildlife.ca.gov/california-halibut/), [CDFW 2023c - California Halibut](https://wildlife.ca.gov/Conservation/Marine/Nearshore#56021327-california-halibut)). To rigorously account for bag limit impacts on the stock and fishery it is necessary to build management procedures that realistically account for these dynamics. 
+Preliminary multi-sex, multi-fleet operating models were developed for California Halibut using the [openMSE](www.openMSE.com) framework ([CDFW 2023b - California Halibut Enhanced Status Report](https://marinespecies.wildlife.ca.gov/california-halibut/), [CDFW 2023c - California Halibut](https://wildlife.ca.gov/Conservation/Marine/Nearshore#56021327-california-halibut)). To rigorously account for bag limit impacts on the stock and fishery it is necessary to build openMSE-compatible management procedures that realistically account for these dynamics. 
 
 This first phase of the project (Deliverable A) derives such a bag-limit-release-rate model (e.g. [Carruthers et al. (2019) - Landscape Scale Trout Management](References/Carruthers et al Landscape Recreational Fisheries cjfas-2018-0168.pdf)
 , [Porch & Fox (1990) - Simulating Bag Limits](References/Simulating_bag_limits_Porch.pdf), [Fisher (2012) - PhD thesis inc Bag Limit theory](References/Fisher_PhD.pdf)) from empirical data and demonstrates this for an example Halibut operating model. 
 
-Following projects steps refine these data, the derived bag-limit-release-rate models, and operating models for California Halibut, and then extend the approach to an additional species. 
+Following projects steps will refine data inputs, fine-tune the derived bag-limit-release-rate models, and construct fully featured multi-fleet operating models from recent stock assessments of California Halibut. The approach will then be extended to at least one additional species. 
 
 
 ***
@@ -137,7 +137,7 @@ The project is currently on-schedule.
 
 #### Deliverables
 
-This page, the code and information linked from it, are intended to satisfy Deliverable A. 
+This project page and the code and information linked from it, are intended to satisfy Deliverable A. 
 
 ```{r Deliv, eval=T, results='asis'}
 getprojectinfo("Status",T,T)
@@ -159,7 +159,7 @@ getprojectinfo("Tasks",T)
 
 #### Priorities
 
-The key priorities relate to getting confidentiality agreements in place to get location-based Recfin data so that regional bag limits can be related to regional catch rate and release rate data. 
+The key priorities rely on getting confidentiality agreements in place to obtain location-based Recfin data so that regional bag limits can be related to regional catch rate and release rate data. 
 
 ```{r Priorities, eval=T, results='asis'}
 getprojectinfo("ATD")
@@ -173,7 +173,7 @@ getprojectinfo("ATD")
 
 #### Statistical distributions for recreational CPUE
 
-Recreational CPUE recorded in the [Recfin](http://wiki.recfin.org/index.php/California_Recreational_Fisheries_Survey) database suggests that trip-level observations are log-normally distributed (see biannually disaggregated data of Figure 1).
+Recreational catch rate recorded in the [Recfin](http://wiki.recfin.org/index.php/California_Recreational_Fisheries_Survey) database suggests that trip-level observations are log-normally distributed (see biannually disaggregated data of Figure 1).
 
 The Poisson model most commonly applied to approximate release rates (e.g. [Carruthers et al. (2019) - Landscape Scale Trout Management](References/Carruthers et al Landscape Recreational Fisheries cjfas-2018-0168.pdf)
 , [Porch & Fox (1990) - Simulating Bag Limits](References/Simulating_bag_limits_Porch.pdf), [Fisher (2012) - PhD thesis inc Bag Limit theory](References/Fisher_PhD.pdf)), did not fit the observed data well. 
@@ -182,13 +182,13 @@ The Poisson model most commonly applied to approximate release rates (e.g. [Carr
 
 <img src="Figures/Catch Rate Distributions.jpeg" width="500">
 
-Figure 1. Distribution of trip-level CPUE in the [Recfin](http://wiki.recfin.org/index.php/California_Recreational_Fisheries_Survey) database. Log-normal distributions (red) were fitted to the data (black) and lognormal mean and standard deviation calculated. Data are disaggregated biannually (For example, 2017_1 is Jan-Jun 2017, 2019_2 is Jul-Dec 2019). 
+Figure 1. Distribution of trip-level catch rate in the [Recfin](http://wiki.recfin.org/index.php/California_Recreational_Fisheries_Survey) database. Log-normal distributions (red) were fitted to the data (black) and lognormal mean and standard deviation calculated. Data are disaggregated biannually (For example, 2017_1 is Jan-Jun 2017, 2019_2 is Jul-Dec 2019). 
 
 &nbsp;
 
 #### Fit to data of alternative release rate models
 
-Multiple models were derived that could predict release rate given observed CPUE and the applied bag limit (e.g. 3 fish per-trip-per-person in the case of Northern Halibut):
+Multiple models were derived that could predict release rate given observed catch rate and the applied bag limit (e.g. 3 fish per-trip-per-person in the case of Northern Halibut):
 
 * (L2P1) A 2-parameter log-normal model that estimates the variance of the log-normal distribution and the background voluntary release rate (independent of release rate due to the bag limit)
 

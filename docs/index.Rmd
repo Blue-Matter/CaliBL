@@ -202,13 +202,13 @@ Multiple models were derived that could predict release rate given observed catc
 
 The Poisson model (grey line) could not achieve the desired increase in release rate with increasing catch rates due to assuming too high a variance in observed catch rates (variance = mean).
 
-The two parameter log normal distribution model that estimates a constant background rate of voluntary releases (L2P1, red line) cannot fit the relatively low release rates at low observed mean catch rate. 
+The 2-parameter log normal distribution model that estimates a constant background rate of voluntary releases (L2P1, red line) cannot fit the relatively low release rates at low observed mean catch rate. 
 
-The three parameters log normal distribution model that estimates voluntary release rates given mean fish below 1 fish per trip and those between 1 fish and the bag limit (3 fish) (L3P1, blue line), did a better job but was consistently below the true observations. 
+The 3-parameters log normal distribution model that estimates voluntary release rates given mean catch rate below 1 fish per trip and then a another voluntary release rate for mean catch rates above 1 fish (L3P1, blue line), did a better job but was consistently below the true observations. 
 
-The two parameter log normal distribution model that estimates a linearly increasing rate of background voluntary releases (L2P2, green line) could not fit the lower release proportions that were observed at lower mean catch rates. 
+The 2-parameter log normal distribution model that estimates a linearly increasing rate of background voluntary releases (L2P2, green line) could not fit the lower release proportions that were observed at lower mean catch rates. 
 
-The three parameters log normal distribution model that estimates linearly increasing rate of background voluntary releases from an intercept (L3P2, orange line) fit the data the best with fewer patterns in residuals (observed - model predicted).  
+The 3-parameter log normal distribution model that estimates linearly increasing rate of background voluntary releases from an intercept (L3P2, orange line) fitted the data the best with fewer patterns in residuals (observed - model predicted).  
 
 &nbsp;
 
@@ -226,9 +226,9 @@ Due to the current inability of the r4ss R package to read the Southern Californ
 
 The observed catch rate data were added to the operating model and linked to vulnerable biomass. This means that a future index of catch rate is simulated and passed to the MPs under projection. The MPs can then do the appropriate release rate calculations in closed-loop. To make sure that the catch rates of the operating model were known perfectly, the index was simulated with no error. 
 
-When a multi-fleet operating model is available (solving the r4ss issue above) the release rate calculations will apply to the recreational fleet only. For the older, more generic combined fleet operating model it is assumed that recreational catches are 40% of the total catches (i.e., bag limits are effectual on only 40% of the exploitation rate in any year). 
+When a multi-fleet operating model is available (solving the r4ss issue above) the release rate calculations will apply to the recreational fleet only. For the older, more generic, combined fleet operating model, it is assumed that recreational catches are 40% of the total catches (i.e., bag limits are effectual on only 40% of the exploitation rate in any year). 
 
-Projecting four extreme MPs (bag limits of 1 and 6 crossed with post release mortality rates of 20% and 80%) demonstrates that bag limits could be influential. When post release mortality rate is low (BL1_D2, BL6_D2) increasing the bag limit to 6 fish increased the probability of overfishing by 11% in total across all fishery types (Figure 3). Biological risk was increased (P(B<0.5BMSY)) by 8%. 
+Projecting four extreme MPs (bag limits of 1 and 6 crossed with post release mortality rates of 20% and 80%) demonstrates that bag limits could be influential. When post release mortality rate is low (BL1_D2, BL6_D2) increasing the bag limit to 6 fish increased the probability of overfishing by 11% in total across all fishery types, (Figure 3). Biological risk was increased (P(B<0.5BMSY)) by 8%. 
 
 When post release mortality rate is high (BL1_D8, BL6_D8), probability of overfishing was broadly similar, as was biological risk. However, overall yields were 9% higher in the case of the 6-fish bag limit, equivalent to a 22.5% increase for the recreational component (9/40). 
 

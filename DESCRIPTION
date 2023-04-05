@@ -1,7 +1,7 @@
 Package: CaliBL
 Type: Package
 Title: Implementing Bag Limit MPs for California State Fisheries
-Version: 0.1.0
+Version: 0.1.1
 Author: Tom Carruthers
 Maintainer: Tom Carruthers <tom@bluematterscience.com>
 Description: Based on empirical recreational fishery data, models are developed that can predict discard rates given varying bag limits. 
@@ -9,5 +9,5 @@ License: GPL-2
 Depends: openMSE
 Encoding: UTF-8
 VignetteBuilder: knitr
-BugReports: https://github.com/Blue-Matter/AnchovetaMSE/issues
+BugReports: https://github.com/Blue-Matter/CaliBL/issues
 LazyData: true

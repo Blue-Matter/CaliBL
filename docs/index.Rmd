@@ -120,8 +120,8 @@ CDFW has begun the process of implementing Management Strategy Evaluation for va
 
 Preliminary multi-sex, multi-fleet operating models were developed for California Halibut using the [openMSE](www.openMSE.com) framework ([CDFW 2023b - California Halibut Enhanced Status Report](https://marinespecies.wildlife.ca.gov/california-halibut/), [CDFW 2023c - California Halibut](https://wildlife.ca.gov/Conservation/Marine/Nearshore#56021327-california-halibut)). To rigorously account for bag limit impacts on the stock and fishery it is necessary to build openMSE-compatible management procedures that realistically account for these dynamics. 
 
-This first phase of the project (Deliverable A) derives such a bag-limit-release-rate model (e.g. [Carruthers et al. (2019) - Landscape Scale Trout Management](References/Carruthers et al Landscape Recreational Fisheries cjfas-2018-0168.pdf)
-, [Porch & Fox (1990) - Simulating Bag Limits](References/Simulating_bag_limits_Porch.pdf), [Fisher (2012) - PhD thesis inc Bag Limit theory](References/Fisher_PhD.pdf)) from empirical data and demonstrates this for an example Halibut operating model. 
+This first phase of the project (Deliverable A) derives such a bag-limit-release-rate model (e.g. [Carruthers et al. (2019)](References/Carruthers et al Landscape Recreational Fisheries cjfas-2018-0168.pdf)
+, [Porch & Fox (1990)](References/Simulating_bag_limits_Porch.pdf), [Fisher (2012)](References/Fisher_PhD.pdf)) from empirical data and demonstrates this for an example Halibut operating model. 
 
 Following projects steps will refine data inputs, fine-tune the derived bag-limit-release-rate models, and construct fully featured multi-fleet operating models from recent stock assessments of California Halibut. The approach will then be extended to at least one additional species. 
 
@@ -175,8 +175,8 @@ getprojectinfo("ATD")
 
 Recreational catch rate recorded in the [Recfin](http://wiki.recfin.org/index.php/California_Recreational_Fisheries_Survey) database suggests that trip-level observations are log-normally distributed (see biannually disaggregated data of Figure 1).
 
-The Poisson model most commonly applied to approximate release rates (e.g. [Carruthers et al. (2019) - Landscape Scale Trout Management](References/Carruthers et al Landscape Recreational Fisheries cjfas-2018-0168.pdf)
-, [Porch & Fox (1990) - Simulating Bag Limits](References/Simulating_bag_limits_Porch.pdf), [Fisher (2012) - PhD thesis inc Bag Limit theory](References/Fisher_PhD.pdf)), did not fit the observed data well. 
+The Poisson model most commonly applied to approximate release rates (e.g. [Carruthers et al. (2019)](References/Carruthers et al Landscape Recreational Fisheries cjfas-2018-0168.pdf)
+, [Porch & Fox (1990)](References/Simulating_bag_limits_Porch.pdf), [Fisher (2012)](References/Fisher_PhD.pdf)), did not fit the observed data well. 
 
 &nbsp;
 
@@ -272,7 +272,7 @@ library(CaliBL)
 avail('MP')
 avail('OM')
 MSEobj = runMSE(DemoOM,MPs=c('BL1_D2',"BL6_D2","BL1_D8","BL6_D8"))
-Pplot(MSEs,maxsims=50)              # Figure 3
+Pplot(MSEobj,maxsims=50)              # Figure 3
 TradePlot(MSEobj,"P50","Yield")     # Figure 4
 
 ```

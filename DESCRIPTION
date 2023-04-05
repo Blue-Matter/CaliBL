@@ -1,7 +1,7 @@
 Package: CaliBL
 Type: Package
 Title: Implementing Bag Limit MPs for California State Fisheries
-Version: 0.1.1
+Version: 0.1.2
 Author: Tom Carruthers
 Maintainer: Tom Carruthers <tom@bluematterscience.com>
 Description: Based on empirical recreational fishery data, models are developed that can predict discard rates given varying bag limits. 

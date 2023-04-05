@@ -34,8 +34,7 @@ export(
     "BL5_D8",
     "BL6_D8",
 
-    "BLMPs",
-    "DemoOM"
+    "BLMPs"
 
 )
 

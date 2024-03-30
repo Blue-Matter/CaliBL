@@ -1,5 +1,139 @@
-# Bag limit MPs
 
+
+# Fitted Bag limit MPs
+
+# library(mvtnorm)
+
+
+# the lognormal bag limit model with slope voluntary release
+RRlnS = function(BL,CRvec,CV,alpha=0,beta=-4,n=1E4,CRlim=c(1E-5,30)){
+  logit = function(p)log(p/(1-p))
+  ilogit = function(x)exp(x)/(1+exp(x))
+
+  RRs = rep(NA,length(CRvec))
+  crs = seq(CRlim[1],CRlim[2],length.out=n)
+
+  Vs = ilogit(beta+alpha*crs)
+  for(i in 1:length(CRvec)){
+    vals0 = dlnorm(crs,log(CRvec[i]),CV)*crs
+    valsV = vals0 * (1-Vs)
+    RRs[i] = 1 - sum(valsV[crs<BL])/sum(vals0)
+    ENC = dlnorm(crs,log(CRvec[i]),CV)*crs   # expected number caught
+    ERV = ENC * Vs                            # expected voluntary release
+    ERB = dlnorm(crs,log(CRvec[i]),CV)*(crs-BL) * (1-Vs)
+    RRs[i] = (sum(ERV)+sum(ERB[crs>=BL]))/sum(ENC)
+  }
+  RRs
+}
+
+explore = function(){
+  fits = readRDS("Data/Processed_2023/Northern_fits.rda")
+  LNSind = 3
+  solve(fits$LB_PC[[LNSind]]$fit$hessian) # parameter 1 is alpha, parameter 2 is CV
+  solve(fits$CRFS_PC[[LNSind]]$fit$hessian)
+  solve(fits$CRFS_PR[[LNSind]]$fit$hessian)
+
+  fits$LB_PC[[LNSind]]$fit$par
+  fits$CRFS_PC[[LNSind]]$fit$par
+  fits$CRFS_PR[[LNSind]]$fit$par
+
+  LB_PC = readRDS("Data/Processed_2023/CPFV_logbook_summary.rda")
+  CRFS_PC = readRDS("Data/Processed_2023/CFRS_PC_summary.rda")
+  CRFS_PR = readRDS("Data/Processed_2023/CFRS_PR_summary.rda")
+
+  yrange = 2016:2020
+  CRobs = (CRFS_PR$Ret +CRFS_PR$Rel)/CRFS_PR$CNTRBTRS
+
+  CRref = mean(CRobs[CRFS_PR$Year %in% yrange & CRFS_PR$MA == "N"],na.rm=T)
+  Data = Hist@Data
+}
+
+BL  = function(x, Data, reps=1, BLim=3, RecPerc=0.6,
+               Fdisc = 0.05, varfac = 0.5, maxVar = 0.2,
+               datname="CRFS_PR", yrange = 2015:2019,
+               CRref = 2.393813, FMSYfrac = 1, MinSz = 55 ){
+
+  mus = list()
+  mus [["LB_PC"]] = c(-0.5,0.2897611)
+  mus [["CRFS_PC"]] = c(-1.36329543,  0.05143813)
+  mus [["CRFS_PR"]] = c(-0.3221240, -0.1627627)
+
+  covars = list()  # parameter 1 is alpha, parameter 2 is CV
+  covars[["LB_PC"]] =  matrix(c(151.66685218, -0.021578167,  -0.021578167,  0.001323111),byrow=T,nrow=2)
+  covars[["CRFS_PC"]] =  matrix(c(0.14015458, -0.021578167, -0.021578167, 0.008575245),byrow=T,nrow=2)
+  covars[["CRFS_PR"]] =  matrix(c(0.01188297, -0.007439349, -0.007439349, 0.005708415),byrow=T,nrow=2)
+
+  mu = mus[match(datname, names(mus))][[1]]
+  covar = covars[match(datname, names(covars))][[1]]
+  diag(covar) = diag(covar)*varfac
+  diag(covar)[diag(covar)>maxVar] = maxVar
+  pars = as.vector(mvtnorm::rmvnorm(1,mu,covar))
+
+  qs = CRref / mean(Data@VInd[x,Data@Year%in%yrange])
+  thisyr = dim(Data@VInd)[2]
+  CRvec = Data@VInd[x,thisyr]*qs
+
+  RR = RRlnS(BL = BLim,CRvec=CRvec,CV = exp(pars[2]),alpha=exp(pars[1]))
+
+  FMSYeffort = FMSYref(x,Data,reps=1)@Effort
+
+  Rec=new('Rec')
+  Rec@Effort = FMSYeffort * FMSYfrac
+  Rec@DR = RR*RecPerc
+  Rec@L5 = MinSz * 0.975
+  Rec@LFS = MinSz * 1.025
+  Rec@Fdisc = Fdisc
+  Rec
+
+}
+class(BL) = "MP"
+
+BL_1 = BL_2 = BL_3 = BL_4 = BL_5 = BL_6 = BL
+formals(BL_1)$BLim = 1
+formals(BL_2)$BLim = 2
+formals(BL_3)$BLim = 3
+formals(BL_4)$BLim = 4
+formals(BL_5)$BLim = 5
+formals(BL_6)$BLim = 6
+class(BL_1) = class(BL_2) = class(BL_3) = class(BL_4) = class(BL_5) = class(BL_6) = "MP"
+
+E_7 = E_8 = E_9 = E_10 = E_11 = E_12 = BL
+formals(E_7)$FMSYfrac = 0.7
+formals(E_8)$FMSYfrac = 0.8
+formals(E_9)$FMSYfrac = 0.9
+formals(E_10)$FMSYfrac = 1.0
+formals(E_11)$FMSYfrac = 1.1
+formals(E_12)$FMSYfrac = 1.2
+class(E_7)= class(E_8)= class(E_9)= class(E_10)= class(E_11)= class(E_12)= "MP"
+
+S_45 = S_50 = S_55 = S_60 = S_65 = BL
+formals(S_45)$MinSz = 45
+formals(S_50)$MinSz = 50
+formals(S_55)$MinSz = 55
+formals(S_60)$MinSz = 60
+formals(S_65)$MinSz = 65
+class(S_45) =  class(S_50) = class(S_55) = class(S_60) = class(S_65) = "MP"
+
+
+C_PR_1 = BL_1; C_PR_2 = BL_2; C_PR_3 = BL_3; C_PR_4 = BL_4; C_PR_5 = BL_5; C_PR_6 = BL_6
+
+C_PC_1 = BL_1; formals(C_PC_1)$datname = "CRFS_PC"; class(C_PC_1) = "MP"
+C_PC_2 = BL_2; formals(C_PC_2)$datname = "CRFS_PC"; class(C_PC_2) = "MP"
+C_PC_3 = BL_3; formals(C_PC_3)$datname = "CRFS_PC"; class(C_PC_3) = "MP"
+C_PC_4 = BL_4; formals(C_PC_4)$datname = "CRFS_PC"; class(C_PC_4) = "MP"
+C_PC_5 = BL_5; formals(C_PC_5)$datname = "CRFS_PC"; class(C_PC_5) = "MP"
+C_PC_6 = BL_6; formals(C_PC_6)$datname = "CRFS_PC"; class(C_PC_6) = "MP"
+
+L_PC_1 = BL_1; formals(L_PC_1)$datname = "LB_PC"; class(L_PC_1) = "MP"
+L_PC_2 = BL_2; formals(L_PC_2)$datname = "LB_PC"; class(L_PC_2) = "MP"
+L_PC_3 = BL_3; formals(L_PC_3)$datname = "LB_PC"; class(L_PC_3) = "MP"
+L_PC_4 = BL_4; formals(L_PC_4)$datname = "LB_PC"; class(L_PC_4) = "MP"
+L_PC_5 = BL_5; formals(L_PC_5)$datname = "LB_PC"; class(L_PC_5) = "MP"
+L_PC_6 = BL_6; formals(L_PC_6)$datname = "LB_PC"; class(L_PC_6) = "MP"
+
+
+
+# Demonstration Bag limit MPs
 
 curE_BG  = function(x, Data, reps=1, BL=3, CV=0.4, Vint=0.35, Vslp=0.075, RecPerc=0.4, Fdisc = 0.5){
 

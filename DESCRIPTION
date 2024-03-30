@@ -6,7 +6,7 @@ Author: Tom Carruthers
 Maintainer: Tom Carruthers <tom@bluematterscience.com>
 Description: Based on empirical recreational fishery data, models are developed that can predict discard rates given varying bag limits. 
 License: GPL-2
-Depends: openMSE
+Depends: openMSE, mvtnorm
 Encoding: UTF-8
 VignetteBuilder: knitr
 BugReports: https://github.com/Blue-Matter/AnchovetaMSE/issues

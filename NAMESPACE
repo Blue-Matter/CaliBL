@@ -13,6 +13,13 @@ export(
 
   "curE_BG",
 
+  "BL1",
+  "BL2",
+  "BL3",
+  "BL4",
+  "BL5",
+  "BL6",
+
     "BL1_D2",
     "BL2_D2",
     "BL3_D2",

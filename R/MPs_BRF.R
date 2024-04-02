@@ -61,8 +61,8 @@ BL_BRF = function(x, Data, reps=1, BLim=3, RecPerc=0.6,
   Rec=new('Rec')
   Rec@Effort = FMSYeffort * FMSYfrac
   Rec@DR = RR*RecPerc
-  Rec@L5 = MinSz * 0.975
-  Rec@LFS = MinSz * 1.025
+  #Rec@L5 = MinSz * 0.975
+  #Rec@LFS = MinSz * 1.025
   Rec@Fdisc = Fdisc
   Rec
 

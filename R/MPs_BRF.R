@@ -81,12 +81,12 @@ class(BL_BRF_1) = class(BL_BRF_2) = class(BL_BRF_3) = class(BL_BRF_4) = class(BL
 
 C_BRF_PR_1 = BL_BRF_1; C_BRF_PR_2 = BL_BRF_2; C_BRF_PR_3 = BL_BRF_3; C_BRF_PR_4 = BL_BRF_4; C_BRF_PR_5 = BL_BRF_5; C_BRF_PR_6 = BL_BRF_6
 
-C_BRF_PC_1 = BL_BRF_1; formals(C_BRF_PC_1)$datname = "CRFS_PC"; class(C_BRF_PC_1) = "MP"
-C_BRF_PC_2 = BL_BRF_2; formals(C_BRF_PC_2)$datname = "CRFS_PC"; class(C_BRF_PC_2) = "MP"
-C_BRF_PC_3 = BL_BRF_3; formals(C_BRF_PC_3)$datname = "CRFS_PC"; class(C_BRF_PC_3) = "MP"
-C_BRF_PC_4 = BL_BRF_4; formals(C_BRF_PC_4)$datname = "CRFS_PC"; class(C_BRF_PC_4) = "MP"
-C_BRF_PC_5 = BL_BRF_5; formals(C_BRF_PC_5)$datname = "CRFS_PC"; class(C_BRF_PC_5) = "MP"
-C_BRF_PC_6 = BL_BRF_6; formals(C_BRF_PC_6)$datname = "CRFS_PC"; class(C_BRF_PC_6) = "MP"
+C_BRF_PR_1 = BL_BRF_1; formals(C_BRF_PR_1)$datname = "CRFS_PR"; class(C_BRF_PR_1) = "MP"
+C_BRF_PR_2 = BL_BRF_2; formals(C_BRF_PR_2)$datname = "CRFS_PR"; class(C_BRF_PR_2) = "MP"
+C_BRF_PR_3 = BL_BRF_3; formals(C_BRF_PR_3)$datname = "CRFS_PR"; class(C_BRF_PR_3) = "MP"
+C_BRF_PR_4 = BL_BRF_4; formals(C_BRF_PR_4)$datname = "CRFS_PR"; class(C_BRF_PR_4) = "MP"
+C_BRF_PR_5 = BL_BRF_5; formals(C_BRF_PR_5)$datname = "CRFS_PR"; class(C_BRF_PR_5) = "MP"
+C_BRF_PR_6 = BL_BRF_6; formals(C_BRF_PR_6)$datname = "CRFS_PR"; class(C_BRF_PR_6) = "MP"
 
 L_BRF_PC_1 = BL_BRF_1; formals(L_BRF_PC_1)$datname = "LB_PC"; class(L_BRF_PC_1) = "MP"
 L_BRF_PC_2 = BL_BRF_2; formals(L_BRF_PC_2)$datname = "LB_PC"; class(L_BRF_PC_2) = "MP"

@@ -90,9 +90,9 @@ Based on observed recreational catch rate and release rate data, develop theoret
 ### Project details
 
 ```{r ProjDets, eval=T}
-dat<-data.frame(c("Term","Funding body","Funding stream","Contract No.","Project Partners","Blue Matter Team","CDFW Principal Investigators"),
+dat<-data.frame(c("Term","Funding body","Funding stream","Contract No.","Project Partners","Blue Matter Team","CDFW Principal Investigator"),
                 
-                 c("Jan 1 2023 - September 30 2023",
+                 c("Jan 1 2023 - June 1 2024",
                    "Resources Legacy Fund (RLF)",
                    "FIS",
                    "17037",
@@ -125,19 +125,20 @@ This first phase of the project (Deliverable A) derives such a bag-limit-release
 
 Following projects steps will refine data inputs, fine-tune the derived bag-limit-release-rate models, and construct fully featured multi-fleet operating models from recent stock assessments of California Halibut. The approach will then be extended to at least one additional species. 
 
+&nbsp;
 
 ***
 
 
 ### Project Status
 
-The project is currently on-schedule.
+The project is currently on-schedule. Bag limit models, management procedures and operating models have been developed for both California halibut and black rockfish in the northern management area (north of Point Sur). 
 
 &nbsp;
 
 #### Deliverables
 
-This project page and the code and information linked from it, are intended to satisfy Deliverable A. 
+This project page and the code and information linked from it, are intended to satisfy Deliverables A - C. 
 
 ```{r Deliv, eval=T, results='asis'}
 getprojectinfo("Status",T,T)
@@ -159,7 +160,7 @@ getprojectinfo("Tasks",T)
 
 #### Priorities
 
-The key priorities rely on getting confidentiality agreements in place to obtain location-based Recfin data so that regional bag limits can be related to regional catch rate and release rate data. 
+The key priorities are now finalizing analyses and drafting final reports / peer-reviewed papers. 
 
 ```{r Priorities, eval=T, results='asis'}
 getprojectinfo("ATD")
@@ -169,85 +170,182 @@ getprojectinfo("ATD")
 ***
 &nbsp;
 
-### Preliminary Findings for Halibut
+### Summary of Findings 
 
-#### Statistical distributions for recreational CPUE
+* Management performance outcomes are relatively insensitive to alternative bag limits.
 
-Recreational catch rate recorded in the [Recfin](http://wiki.recfin.org/index.php/California_Recreational_Fisheries_Survey) database suggests that trip-level observations are log-normally distributed (see biannually disaggregated data of Figure 1).
+* Performance results for halibut were at least as sensitive to the bag limit model (source of data for model fitting) as the bag limit evaluated, and are therefore an important source of uncertainty. 
 
-The Poisson model most commonly applied to approximate release rates (e.g. [Carruthers et al. (2019)](References/Carruthers et al Landscape Recreational Fisheries cjfas-2018-0168.pdf)
-, [Porch & Fox (1990)](References/Simulating_bag_limits_Porch.pdf), [Fisher (2012)](References/Fisher_PhD.pdf)), did not fit the observed data well. 
+* Bag limits do not effectively reduce exploitation rate at low stock sizes and imply a harvest control rule that contrasts with traditional approaches. 
 
-&nbsp;
+* Effort controls (e.g., N.o. vessel licenses, number of vessel-days) are likely to be a superior basis for managing exploitation.
 
-<img src="Figures/Catch Rate Distributions.jpeg" width="500">
+* The current halibut size limit of 55 cm is well suited to maximizing yield at an intermediate level of biological risk.
 
-Figure 1. Distribution of trip-level catch rate in the [Recfin](http://wiki.recfin.org/index.php/California_Recreational_Fisheries_Survey) database. Log-normal distributions (red) were fitted to the data (black) and lognormal mean and standard deviation calculated. Data are disaggregated biannually (For example, 2017_1 is Jan-Jun 2017, 2019_2 is Jul-Dec 2019). 
-
-&nbsp;
-
-#### Fit to data of alternative release rate models
-
-Multiple models were derived that could predict release rate given observed catch rate and the applied bag limit (e.g. 3 fish per-trip-per-person in the case of Northern Halibut):
-
-* (L2P1) A 2-parameter log-normal model that estimates the variance of the log-normal distribution and the background voluntary release rate (independent of release rate due to the bag limit)
-
-* (L3P1) A 3-parameter log-normal model that is the same as L2P1 but estimates background voluntary release rate for mean CPUE above and below 1 fish per trip. 
-
-* (L2P2) A 2-parameters lognormal model that is the same as L2P1 but estimates the slope in increasing background voluntary release rate with mean CPUE (origin = 0:0)
-
-* (L3P2) A 3-parameter lognormal model that is tthe same as L2P2 but also estimates the intercept in background voluntary release rates (release rate at zero CPUE)
-
-* (Poisson: for reference) A one parameter Poisson model that simply estimates the background voluntary release rate. 
-
-The Poisson model (grey line) could not achieve the desired increase in release rate with increasing catch rates due to assuming too high a variance in observed catch rates (variance = mean).
-
-The 2-parameter log normal distribution model that estimates a constant background rate of voluntary releases (L2P1, red line) cannot fit the relatively low release rates at low observed mean catch rate. 
-
-The 3-parameters log normal distribution model that estimates voluntary release rates given mean catch rate below 1 fish per trip and then a another voluntary release rate for mean catch rates above 1 fish (L3P1, blue line), did a better job but was consistently below the true observations. 
-
-The 2-parameter log normal distribution model that estimates a linearly increasing rate of background voluntary releases (L2P2, green line) could not fit the lower release proportions that were observed at lower mean catch rates. 
-
-The 3-parameter log normal distribution model that estimates linearly increasing rate of background voluntary releases from an intercept (L3P2, orange line) fitted the data the best with fewer patterns in residuals (observed - model predicted).  
+* Projecting management outcomes for both the Base Case and the Depleted operating models, suggests there is a relatively low risk of biomass dropping below MSY levels for both the halibut and black rockfish case studies. 
 
 &nbsp;
 
-<img src="Figures/RRfits.jpeg" width="500">
+### Methods
 
-Figure 2. Fit of alternative release models to historical observed mean catch rate and observed proportion released.  
+For both the halibut and black rockfish case studies there were six methodological components (for greater detail please see the [draft report](Reports/Extending MSE to Evaluate Bag Limit Regulations.pdf):
 
-&nbsp;
+1) Process trip level data from three sources: logbook party/charter (LB_PC), California Recreational Fishery Survey party/charter (CRFS_PC) and CRFS private rental (CRFS_PR) and evaluate how frequently it would be expected that historical bag limits were triggered based on trip level catches. 
 
-#### Demonstration projections
+2) Develop theoretical bag limit models that can predict mean release rates from mean catch rates. 
 
-A total of 18 bag-limit MPs were developed to demonstrate the compatibility of the 3-parameter log normal model (L3P2) with openMSE. These 18 MPs are a full cross of 6 bag limits (1 - 6) and three levels of post-release mortality rate (20%, 50% and 80%). For example BL3_D2 is a 3-bag limit management option assuming a 20% post release mortality rate, BL6_D5 is a 6-fish bag limit management options assuming a 50% post-release mortality rate. In all of these MPs we assume current fishing effort is held constant at current levels. 
+3) Fit theoretical bag limit models to data to establish which model provides the most appropriate approximation of the observed dynamics. 
 
-Due to the current inability of the r4ss R package to read the Southern California Halibut SS3 assessment, an older more generic [California Halibut operating model](https://docs.google.com/viewer?url=https://github.com/Blue-Matter/OM_library/raw/main/OM_case_studies/California_Halibut_CA_CDFW/California_Halibut_CA_CDFW.pdf) was used in this demonstration. 
+4) Codify those bag limit models into management procedures
 
-The observed catch rate data were added to the operating model and linked to vulnerable biomass. This means that a future index of catch rate is simulated and passed to the MPs under projection. The MPs can then do the appropriate release rate calculations in closed-loop. To make sure that the catch rates of the operating model were known perfectly, the index was simulated with no error. 
+5) Specify fishery operating models based on empirical stock assessments (a plausible hypothesis for fishery and population dynamics) and also alternatives for robustness/ sensitivity testing. 
 
-When a multi-fleet operating model is available (solving the r4ss issue above) the release rate calculations will apply to the recreational fleet only. For the older, more generic, combined fleet operating model, it is assumed that recreational catches are 40% of the total catches (i.e., bag limits are effectual on only 40% of the exploitation rate in any year). 
-
-Projecting four extreme MPs (bag limits of 1 and 6 crossed with post release mortality rates of 20% and 80%) demonstrates that bag limits could be influential. When post release mortality rate is low (BL1_D2, BL6_D2) increasing the bag limit to 6 fish increased the probability of overfishing by 11% in total across all fishery types, (Figure 3). Biological risk was increased (P(B<0.5BMSY)) by 8%. 
-
-When post release mortality rate is high (BL1_D8, BL6_D8), probability of overfishing was broadly similar, as was biological risk. However, overall yields were 9% higher in the case of the 6-fish bag limit, equivalent to a 22.5% increase for the recreational component (9/40). 
-
-
-
-<img src="Figures/Pplot.jpeg" width="500">
-
-Figure 3. Projection plots of F/FMSY and B/BMSY (SSB/SSBMSY) for the four MPs (50 simulations).
+6) Conduct closed-loop (MSE-style) projections of various management options including alternative bag-limits to evaluate their properties and efficacy. 
 
 &nbsp;
 
-Trade-off plots (Figure 4) of biomass risk and yield show that bag limits have an impact on yield (vertical distance) when post release mortality rate is high (BL1_D8 vs BL6_D8) and a impact on biomass risk (horizontal distance) when post-release mortality rate is low (BL1_D2, BL6_D2). 
+### Results
 
-<img src="Figures/Tplot.jpeg" width="500">
+An overview of results is provided here for both halibut and black rockfish in the northern management area. For more detailed description of methods and preliminary results a [draft report is available](Reports/Extending MSE to Evaluate Bag Limit Regulations.pdf).
 
-Figure 4. Trade-off plots (Figure 4) of biomass risk and yield for the four MPs (64 simulations).
+#### Statistical distribution of observed recreational CPUE 
 
+Only the northern management area data provided catch rates consistently high enough to trigger historical bag limits.  
 
 &nbsp;
+
+<img src="Figures/Halibut/Catch_Rate_Distributions_Northern.jpg" width="500">
+
+Figure 1. Distribution of trip-level halibut catch rates over recent years for the northern management area for the three data sources: logbook party/charter (LB_PC), California Recreational Fishery Survey party/charter (CRFS_PC) and CRFS private rental (CRFS_PR). 
+
+&nbsp;
+
+<img src="Figures/Halibut/Compare_Releases_Retained_Monthly.jpg" width="500">
+
+Figure 2. Observed relationship between mean monthly catch rates and release rates of halibut in both southern and northern management areas by data type. 
+
+&nbsp;
+
+<img src="Figures/Halibut/Empirical bag limit eval.jpg" width="500">
+
+Figure 3. An empirical analysis quantifying expected release rate of halibut given observed catch rate data and historical bag limits. 
+
+&nbsp;
+
+<img src="Figures/BRF/Empirical bag limit eval.jpg" width="500">
+
+Figure 4. An empirical analysis quantifying expected release rate of black rockfish given observed catch rate data and historical bag limits. 
+
+&nbsp;
+
+#### Theoretical bag limit models
+
+
+Catch rate data are typically assumed to follow either binomial, negative binomial, Poisson (for discrete data) or log-normal distributions. Statistical distributions used elsewhere such as the binomial and negative binomial distributions (e.g., Porch and Fox 1990) very poorly  approximated the observed distribution of catch rates (Figures 2.1 and 2.2) and were not considered further. A number of Poisson and log-normal models were investigated to approximate the observed mean catch rate and mean release rate (Table 1). Here release rate refers to the proportion of caught fish by number that were released by number (sometimes referred to as ‘potential catch’, Lew and Larson 2014). 
+
+
+Table 1. Statistical models for predicting mean release rate (across all trips) from mean catch rate (across all trips). Models include two discrete Poisson models with and without a constant background release rate (Pois and PoisV, respectively), and five continuous lognormal distributions that: do not model background release rate (LN), include a constant background release rate (LNV), includes two parameters for background release rate for trips catching below/above 1 fish (LN2V), models background release rate as a linear relationship with mean catch rate (LNVS) and a similar approach with both intercept and slope in the relationship between background release rate and mean catch rate (LNVSI). Note that the numbers released (r) and retained (k) are calculated from the integral of the density and the catch rate. Since there is no closed-form solution to the integral of a normal distribution, integration was approximated numerically.  
+ 
+
+<img src="Figures/Bag limit models.png" width="500">
+
+&nbsp;
+
+
+
+<img src="Figures/Halibut/Model_Explanation_LNVS.jpg" width="450">
+
+Figure 5. Components of the log-normal bag limit model LNVS that includes a linearly increasing background release rate (V, blue), the fraction of fish that are retained (k, red) and the release rate (r, green). Although the log-normal density is plotted here, the expected number of fish released and retained was calculated from the integral of the product of the density and the catch rate (i.e. based on expected numbers of fish retained and released, not the proportion of trips).
+
+&nbsp;
+
+
+
+<img src="Figures/Halibut/Model_Fits_CFRS_PR.jpg" width="550">
+
+Figure 6. Fit of alternative bag limit models to historical observed mean catch rate and observed proportion released for California halibut in the northern management area.  
+
+&nbsp;
+
+
+#### Fit of theoretical bag limit models
+
+The lognormal model that included a linearly increasing background release rate with catch rate, was selected as the most appropriate theoretical model for halibut and black rockfish in the northern area (Figure 7)
+
+<img src="Figures/Halibut/Northern_Fits_LN2.jpg" width="500">
+
+Figure 7. Model fitting results for the northern management area for three data types (columns) and four log-normal bag limit models (Table 2) that estimate: (LNV) a constant background release rate (parameter V0); (LN2V) constant background release rates for catch rates below (V1) and above (V2) 1 fish per angler per trip; (LNVS) a linearly increasing (inverse logit space) background release rate calculated from the slope (alpha) with mean catch rate; (LNVSI) the same model with an intercept (beta, inverse logit space). Grey points are observed monthly mean catch rate and mean release rates (1980 - 2023 logbook, 2016-2023 CRFS party/charter, 2013-2023 CRFS private rental). The vertical dashed line denotes the 3-fish bag limit for the northern management area. The colored lines represent the maximum likelihood fit of each bag limit model through the data. Included in each panel are the estimated parameters including the log-normal coefficient of variation (CV) and negative log-likelihood (nll) of the model fit. 
+
+  
+
+&nbsp;
+
+#### Specifying operating models for halibut and black rockfish
+
+The most recent age-structured stock synthesis assessments for halibut and black rockfish were converted to OpenMSE operating models (Figures 8 and 9). 
+
+
+<img src="Figures/Halibut/Assessment.png" width="600">
+
+Figure 8. A selection of data and model estimates from the recent stock assessment for the northern California stock: catches by fleet (top left), maximum likelihood estimate (MLE) of total stock biomass (top right), MLE age structure (bottom left) and the MLE model fit (blue line) to the observed relative abundance index of the Commercial Passenger Fishing Vessel (CPFV) fleet (black points and bars) (bottom right). Note that total biomass in 2020 is estimated to be above equilibrium unfished conditions (the blue point plotted at 1979 on the top right panel).  
+
+&nbsp;
+
+<img src="Figures/BRF/Assessment.png" width="600">
+
+Figure 9. A selection of data and model estimates from the recent stock assessment for the northern California black rockfish stock: catches by fleet (top left), maximum likelihood estimate (MLE, line) and 90% interval of total stock biomass (top right), MLE age structure (bottom left) and the MLE model fit (blue line) to two of the CPUE based relative abundance indices (bottom right). Note that total biomass in 2023 is estimated to be around the management target level with a relatively high degree of uncertainty, including values below the minimum stock size threshold.  
+
+
+
+#### Projections
+
+The observed catch rate data were added to the operating model and linked to vulnerable biomass. This means that a future index of catch rate is simulated and passed to the MPs under projection. The MPs can then calculate the predicted release rate in closed-loop. To make sure that the catch rates of the operating model were known perfectly, the index was simulated with no error. 
+
+Bag limits between 1 and 6 (a wide range for halibut) were less consequential in determining biomass and yield outcomes than +/- 20% changes in fishing effort (Figure 10).
+
+
+<img src="Figures/Halibut/Tplot_Depleted_BL_vs_Eff.jpeg" width="350">
+
+Figure 10. The impact of halibut bag limits from 1 - 6 (BL_1, BL_2, … BL_6) (black) and overall effort control (as a % of FMSY fishing effort: E_8 is 80% FMSY, E_12 is 120% FMSY) (bag limit = 3) (red) on the long term (2051-2060) mean spawning biomass relative to MSY levels, and fishery yields. Closed-loop simulations (n=144) were carried out for the ‘Depleted’ operating model. 
+
+&nbsp;
+
+Generally, bag limits had a relatively weak impact on future projected biomass and yield for northern area halibut (Figure 11).
+
+&nbsp;
+
+<img src="Figures/Halibut/Proj_SSB_Y_D.jpeg" width="500">
+
+Figure 11. Projection of yield and spawning biomass for northern halibut given bag limits of 2 and 4 fish. The solid lines represent the median value over 144 simulations, the shaded regions are the 90% interquantile range.
+
+&nbsp;
+
+Current size limit regulations correspond with maximum projected long term yield (Figure 12).  
+
+&nbsp;
+
+<img src="Figures/Halibut/Tplot_Depleted_BL_vs_Sz.jpeg" width="350">
+
+Figure 12. The impact of halibut bag limits from 1 - 6 (BL_1, BL_2, … BL_6) (black) and minimum size limit control from 45cm to 65cm (S_45, S_50, … S65) (red) on the long term (2051-2060) mean spawning biomass relative to MSY levels, and fishery yields. Closed-loop simulations (n=144) were carried out for the  ‘Depleted’ operating model starting from 40% unfished levels. 
+
+&nbsp;
+
+The pattern of exploitation rate with stock size for bag limit regulations appears to run contrary to conventional harvest control rules that throttle exploitation rate at low stock sizes (Figures 13 and 14).
+
+&nbsp;
+
+<img src="Figures/Halibut/HCR.jpeg" width="400">
+
+Figure 13. Implied harvest control rule of halibut bag limits. The 2 and 3-fish bag limits of the default bag limit model (CRFS private/rental) were projected for the Depleted operating model at 150% FMSY fishing effort to reveal the relationship between projected spawning biomass and the fishing mortality rate arising from the bag limit. The higher exploitation rate was required to obtain simulations with biomass below MSY levels. 
+
+&nbsp;
+
+<img src="Figures/BRF/HCR.jpeg" width="400">
+
+Figure 14. Implied harvest control rule of bag limits for black rockfish. The 2 and 4-fish bag limits of the default bag limit model (CRFS private charter) were projected for the Depleted operating model at 150% FMSY fishing effort to reveal the relationship between projected spawning biomass and the fishing mortality rate arising from the bag limit. The higher exploitation rate was required to obtain simulations with biomass below MSY levels. 
+
+&nbsp;
+
 
 ***
 
@@ -269,11 +367,16 @@ Run the example code to produce the plots above:
 
 ```{r rundemo,echo=T, eval=FALSE}
 library(CaliBL)
-avail('MP')
-avail('OM')
-MSEobj = runMSE(DemoOM,MPs=c('BL1_D2',"BL6_D2","BL1_D8","BL6_D8"))
-Pplot(MSEobj,maxsims=50)              # Figure 3
-TradePlot(MSEobj,"P50","Yield")     # Figure 4
+
+avail('MP') # black rockfish MPs are denoted BRF
+avail('OM') # halibut operating models are H_, black rockfish are BRF_
+
+MSE_halibut = Project(H_N_small,c("BL_2","BL_4","BL_6")) # project 2, 4 and 6 bag limits for halibut
+Pplot(MSEobj,maxsims=50)              
+TradePlot(MSEobj,"P50","Yield")     
+
+MSE_BRF = Project(BRF_N_small,c("BL_BRF_2","BL_BRF_4","BL_BRF_6")) # project 2, 4 and 6 bag limits for black rockfish
+
 
 ```
 
@@ -313,7 +416,7 @@ TradePlot(MSEobj,"P50","Yield")     # Figure 4
 
 ### Acknowledgements
 
-Special thanks to Julia Coates for her help in providing and explaining the various datasets.
+Special thanks to Julia Coates and Laura Ryley for their help in providing and explaining the various datasets.
 
 This work was funded by the [Resources Legacy Fund](https://resourceslegacyfund.org/) - many thanks to Huff McGonigal for coordinating support for this project. 
 

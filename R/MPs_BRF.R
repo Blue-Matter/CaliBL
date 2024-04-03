@@ -55,7 +55,6 @@ BL_BRF = function(x, Data, reps=1, BLim=3, RecPerc=0.6,
   CRvec = Data@VInd[x,thisyr]*qs
 
   RR = RRlnS(BL = BLim,CRvec=CRvec,CV = exp(pars[2]),alpha=exp(pars[1]))
-
   FMSYeffort = FMSYref(x,Data,reps=1)@Effort
 
   Rec=new('Rec')

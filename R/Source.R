@@ -38,24 +38,26 @@ Proj_Comp = function(MSEobj,ccols = c("#ff000070","#0000ff70","#99999970"),
 
 
 # comparative yield plot
-YBTplot = function(MSEs,yrs=31:40,nowyr=2020,textadj = 0.04,textcex = 0.9,labs=T,laby=NA,title=""){
+YBTplot = function(MSEs,yrs=31:40,nowyr=2020,textadj = 0.04,textcex = 0.9,labs=T,laby=NA,title="",labinv=NA, xadj=1.3,yadj=0.2){
+
   par(mai=c(0.8,0.8,0.05,0.05))
-  tcols = c("black","red","green","blue")
+  tcols = c("darkgrey","red","green","blue")
   cols = c("#999999","#ff000095","#00ff0095","#0000ff99")
   Y30 = lapply(MSEs,function(x)apply(x@Catch[,,yrs],2,mean))
   SSB = lapply(MSEs,function(x)apply(x@SB_SBMSY[,,yrs],2,mean))
   nams = lapply(MSEs,function(x)x@MPs)
-  xlim = range(SSB)*c(0.98,1.02)
-  ylim = range(Y30)*c(0.98,1.02)
+  xlim = range(SSB)*c(0.99,1.01)
+  ylim = range(Y30)*c(0.99,1.01)
   xrng = range(SSB)[2]-range(SSB)[1]
   yrng = range(Y30)[2]-range(Y30)[1]
   plot(SSB[[1]],Y30[[1]],col="white",ylim=ylim,xlim=xlim,xlab="",ylab="")
+  if(is.na(labinv[1]))labinv=rep(1,length(SSB))
   grid()
   for(i in 1:length(SSB)){
     points(SSB[[i]],Y30[[i]],col=cols[i],cex=0.95,pch=19)
     lines(SSB[[i]],Y30[[i]],col=cols[i])
-    textx = SSB[[i]]+textadj*xrng
-    texty = Y30[[i]]+textadj*yrng
+    textx = SSB[[i]]+xadj*labinv[i]*textadj*xrng
+    texty = Y30[[i]]+yadj*labinv[i]*textadj*yrng
     if(labs)text(textx,texty,nams[[i]],cex=textcex,col=tcols[i])
   }
   if(!is.na(laby[1]))legend('topright',legend=laby,text.col=tcols,bty='n',title=title,title.col="black")

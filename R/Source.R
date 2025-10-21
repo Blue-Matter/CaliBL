@@ -100,53 +100,6 @@ dofits = function(cpue,cutoff=15, lab=""){
 
 # RR predictors ---------------------------------------------------------------------------
 
-pois_RR = function(CRvec,BagLim,V_pois){
-  predTheta_pois = ppois(BagLim, CRvec, lower.tail=F)
-  1-((1-V_pois)*(1-predTheta_pois))
-}
-
-lnorm1_RR = function(CRvec, BagLim, CV_ln, V_ln){
-  predTheta_ln = plnorm(BagLim,log(CRvec),sd=CV_ln,lower.tail=F)
-  1-((1-V_ln)*(1-predTheta_ln))
-}
-
-lnorm2_RR = function(CRvec, BagLim, CV_Ln2, V1_ln2, V2_ln2){
-  predTheta_ln2 = plnorm(BagLim,log(CRvec),sd=CV_ln2,lower.tail=F)
-  predOmega_ln2 = plnorm(1,log(CRvec),sd=CV_ln2,lower.tail=T)
-  1-((1-V1_ln2) * predOmega_ln2 + (1-V2_ln2) * (1-predTheta_ln2-predOmega_ln2) )
-}
-
-
-#CRvec = seq(0,3.2,length.out=20)
-#L = CRvec-(max(CRvec)/2) * 0.1
-#VM = exp(L)/(1+exp(L))
-
-lnormVM1_RR = function(CRvec, BagLim, CV_VM1, Vslp1){
-  predTheta_VM1 = plnorm(BagLim,log(CRvec),sd=CV_VM1,lower.tail=F)
-  VM1 = CRvec*Vslp1
-  1-((1-VM1)*(1-predTheta_VM1))
-}
-
-lnormVM2_RR = function(CRvec, BagLim, CV_VM2, Vint, Vslp2){
-  predTheta_VM2 = plnorm(BagLim,log(CRvec),sd=CV_VM2,lower.tail=F)
-  VM2 = Vint + CRvec*Vslp2
-  1-((1-VM2)*(1-predTheta_VM2))
-}
-
-
-# source_URL("https://raw.github.com/christophergandrud/christophergandrud.github.com/master/SourceCode/CarsScatterExample.R")
-
-# source_URL("https://raw.github.com/blue-matter/blue-matter.github.com/master/CDFW_Bag_Limits/Code/Source.R")
-
-RDS_from_web <- function(myurl) {
-
-  tempFile_location<- tempfile()
-  download.file(myurl, tempFile_location)
-  b <- readRDS(tempFile_location)
-  file.remove(tempFile_location)
-  b
-}
-
 
 sourcefunc= function(){
   install.packages('downloader')
@@ -170,9 +123,5 @@ sourcefunc= function(){
 
 
 # Fitting 3-parameter bag limit model
-
-
-print('CDFW Bag Limit Source Code Loaded')
-
 
 

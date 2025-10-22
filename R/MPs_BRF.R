@@ -154,11 +154,6 @@ formals(EL_BRF_13)$FMSYfrac = 1.3
 formals(EL_BRF_14)$FMSYfrac = 1.4
 class(EL_BRF_7)= class(EL_BRF_8)= class(EL_BRF_9)= class(EL_BRF_10)= class(EL_BRF_11)= class(EL_BRF_12)=class(EL_BRF_13)=class(EL_BRF_14)= "MP"
 
-
-
-
-
-
 C_BRF_PR_1 = BL_BRF_1; C_BRF_PR_2 = BL_BRF_2; C_BRF_PR_3 = BL_BRF_3; C_BRF_PR_4 = BL_BRF_4; C_BRF_PR_5 = BL_BRF_5; C_BRF_PR_6 = BL_BRF_6
 
 C_BRF_PR_1 = BL_BRF_1; formals(C_BRF_PR_1)$datname = "CRFS_PR"; class(C_BRF_PR_1) = "MP"

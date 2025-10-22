@@ -5,27 +5,6 @@
 # library(mvtnorm)
 
 
-# the lognormal bag limit model with slope voluntary release
-RRlnS = function(BL,CRvec,CV,alpha=0,beta=-4,n=1E4,CRlim=c(1E-5,30)){
-  logit = function(p)log(p/(1-p))
-  ilogit = function(x)exp(x)/(1+exp(x))
-
-  RRs = rep(NA,length(CRvec))
-  crs = seq(CRlim[1],CRlim[2],length.out=n)
-
-  Vs = ilogit(beta+alpha*crs)
-  for(i in 1:length(CRvec)){
-    vals0 = dlnorm(crs,log(CRvec[i]),CV)*crs
-    valsV = vals0 * (1-Vs)
-    RRs[i] = 1 - sum(valsV[crs<BL])/sum(vals0)
-    ENC = dlnorm(crs,log(CRvec[i]),CV)*crs   # expected number caught
-    ERV = ENC * Vs                            # expected voluntary release
-    ERB = dlnorm(crs,log(CRvec[i]),CV)*(crs-BL) * (1-Vs)
-    RRs[i] = (sum(ERV)+sum(ERB[crs>=BL]))/sum(ENC)
-  }
-  RRs
-}
-
 explore = function(){
   fits = readRDS("Data/Processed_2023/Northern_fits.rda")
   LNSind = 1

@@ -75,7 +75,7 @@ Proj_Comp = function(MSEobj,ccols = c("#ff000070","#0000ff70","#99999970"),
   yrs = refyr + 1:MSEobj@proyears
   plot(range(yrs),ylim,col="white",xlab="",ylab=""); grid()
   for(i in 1:MSEobj@nMPs)docloud(xs = yrs[yind], dat=MSEobj@Catch[,i,yind],ccol=ccols[i],lcol=lcols[i])
-  if(dolabs) mtext("Yield",2,line=2.2)
+  if(dolabs) mtext("Yield (t)",2,line=2.2)
   if(!is.na(labs[1]))mtext(labs[2],adj=0.03,line=-1,cex=0.85)
   if(is.function(legcode2))legcode2()
 

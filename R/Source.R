@@ -4,13 +4,50 @@
 
 
 # Source
+Proj_Comp_2 = function(MSEobj,MSEobj2,ccols = c("#ff000070","#0000ff70","#99999970"),
+                     lcols = c("red","blue","black"),refyr = 2020, MPs = c(1,1),newplot=T,
+                     legcode = NA, dolabs=T, labs = NA){
+
+  if(newplot)par(mfrow=c(2,1), mai=c(0.4,0.5,0.02,0.02),omi=c(0.4,0.2,0.05,0.05))
+
+  docloud = function(xs,dat,lcol="black",ccol="#99999990"){
+    qs=apply(dat,2,quantile,p=c(0.05,0.5,0.95))
+    polygon(c(xs,rev(xs)),c(qs[1,],rev(qs[3,])),border=F,col=ccol)
+    lines(xs,qs[2,],col=lcol)
+  }
+
+  yind = 2:MSEobj@proyears
+  # SSB
+  ylim = c(0,range(apply(MSEobj@SB_SBMSY,2:3,quantile,p=c(0.05,0.95)))[2])
+  yrs = refyr + 1:MSEobj@proyears
+  plot(range(yrs),ylim,col="white",xlab="",ylab=""); grid()
+  docloud(xs = yrs[yind], dat=MSEobj@SB_SBMSY[,MPs[1],yind],ccol=ccols[1],lcol=lcols[1])
+  if(is.function(legcode))legcode()
+  docloud(xs = yrs[yind], dat=MSEobj2@SB_SBMSY[,MPs[2],yind],ccol=ccols[2],lcol=lcols[2])
+  if(dolabs) mtext("SSB / SSBMSY",2,line=2.2)
+  if(!is.na(labs[1]))mtext(labs[1],adj=0.03,line=-1,cex=0.85)
+
+  # Yield
+  ylim = c(0,range(apply(MSEobj@Catch,2:3,quantile,p=c(0.05,0.95)))[2])
+  yrs = refyr + 1:MSEobj@proyears
+  plot(range(yrs),ylim,col="white",xlab="",ylab=""); grid()
+  docloud(xs = yrs[yind], dat=MSEobj@Catch[,MPs[1],yind],ccol=ccols[1],lcol=lcols[1])
+  docloud(xs = yrs[yind], dat=MSEobj2@Catch[,MPs[2],yind],ccol=ccols[2],lcol=lcols[2])
+  if(dolabs) mtext("Yield (t)",2,line=2.2)
+  if(!is.na(labs[1]))mtext(labs[2],adj=0.03,line=-1,cex=0.85)
+
+
+  if(newplot)mtext("Projection year",1,outer=T,line=0.3)
+
+}
 
 
 # MSE plotting
 Proj_Comp = function(MSEobj,ccols = c("#ff000070","#0000ff70","#99999970"),
-                     lcols = c("red","blue","black"),refyr = 2020){
+                     lcols = c("red","blue","black"),refyr = 2020, newplot=T,
+                     legcode = NA, legcode2 = NA, dolabs=T, labs = NA){
 
-  par(mfrow=c(2,1), mai=c(0.4,0.5,0.02,0.02),omi=c(0.4,0.2,0.05,0.05))
+  if(newplot)par(mfrow=c(2,1), mai=c(0.4,0.5,0.02,0.02),omi=c(0.4,0.2,0.05,0.05))
 
   docloud = function(xs,dat,lcol="black",ccol="#99999990"){
     qs=apply(dat,2,quantile,p=c(0.05,0.5,0.95))
@@ -19,28 +56,38 @@ Proj_Comp = function(MSEobj,ccols = c("#ff000070","#0000ff70","#99999970"),
   }
 
   # SSB
-  ylim = c(0,range(apply(MSEobj@SB_SBMSY,2:3,quantile,p=c(0.05,0.95)))[2])
+
+  SSB =MSEobj@SSB
+  SSBMSY = MSEobj@RefPoint$SSBMSY[,,MSEobj@nyears]
+  Bmet = SSB/array(SSBMSY,dim(SSB))
+  ylim = c(0,range(apply(Bmet,2:3,quantile,p=c(0.05,0.95)))[2])
   yrs = refyr + 1:MSEobj@proyears
+  yind = 2:MSEobj@proyears
   plot(range(yrs),ylim,col="white",xlab="",ylab=""); grid()
-  for(i in 1:MSEobj@nMPs)docloud(xs = yrs, dat=MSEobj@SB_SBMSY[,i,],ccol=ccols[i],lcol=lcols[i])
-  mtext("SSB / SSBMSY",2,line=2.2)
+  for(i in 1:MSEobj@nMPs)docloud(xs = yrs[yind], dat=Bmet[,i,yind],ccol=ccols[i],lcol=lcols[i])
+  if(dolabs)mtext("SSB / SSBMSY",2,line=2.2)
+  if(!is.na(labs[1]))mtext(labs[1],adj=0.03,line=-1,cex=0.85)
+
+  if(is.function(legcode))legcode()
 
   # Yield
   ylim = c(0,range(apply(MSEobj@Catch,2:3,quantile,p=c(0.05,0.95)))[2])
   yrs = refyr + 1:MSEobj@proyears
   plot(range(yrs),ylim,col="white",xlab="",ylab=""); grid()
-  for(i in 1:MSEobj@nMPs)docloud(xs = yrs, dat=MSEobj@Catch[,i,],ccol=ccols[i],lcol=lcols[i])
-  mtext("Yield",2,line=2.2)
+  for(i in 1:MSEobj@nMPs)docloud(xs = yrs[yind], dat=MSEobj@Catch[,i,yind],ccol=ccols[i],lcol=lcols[i])
+  if(dolabs) mtext("Yield",2,line=2.2)
+  if(!is.na(labs[1]))mtext(labs[2],adj=0.03,line=-1,cex=0.85)
+  if(is.function(legcode2))legcode2()
 
-  mtext("Projection year",1,outer=T,line=0.3)
+  if(newplot)mtext("Projection year",1,outer=T,line=0.3)
 
 }
 
 
 # comparative yield plot
-YBTplot = function(MSEs,yrs=31:40,nowyr=2020,textadj = 0.04,textcex = 0.9,labs=T,laby=NA,title="",labinv=NA, xadj=1.3,yadj=0.2){
+YBTplot = function(MSEs,yrs=31:40,nowyr=2020,textadj = 0.04,textcex = 0.9,labs=T,laby=NA,title="",labinv=NA, xadj=1.3,yadj=0.2, plab ="", doaxislabs = F, newplot=T){
 
-  par(mai=c(0.8,0.8,0.05,0.05))
+  if(newplot)par(mai=c(0.8,0.8,0.05,0.05))
   tcols = c("darkgrey","red","green","blue")
   cols = c("#999999","#ff000095","#00ff0095","#0000ff99")
   Y30 = lapply(MSEs,function(x)apply(x@Catch[,,yrs],2,mean))
@@ -61,8 +108,9 @@ YBTplot = function(MSEs,yrs=31:40,nowyr=2020,textadj = 0.04,textcex = 0.9,labs=T
     if(labs)text(textx,texty,nams[[i]],cex=textcex,col=tcols[i])
   }
   if(!is.na(laby[1]))legend('topright',legend=laby,text.col=tcols,bty='n',title=title,title.col="black")
-  mtext(paste0("Expected yield (proj. yrs. ",min(yrs+nowyr),"-",max(yrs+nowyr),",)"),2,line=2.1)
-  mtext(paste0("Expected SSB/SSBMSY (proj. yrs. ",min(yrs+nowyr),"-",max(yrs+nowyr),")"),1,line=2.2)
+  mtext(plab,adj=0.03,line=-1,cex=0.85)
+  if(doaxislabs) mtext(paste0("Expected yield (proj. yrs. ",min(yrs+nowyr),"-",max(yrs+nowyr),",)"),2,line=2.1)
+  if(doaxislabs) mtext(paste0("Expected SSB/SSBMSY (proj. yrs. ",min(yrs+nowyr),"-",max(yrs+nowyr),")"),1,line=2.2)
 }
 
 # Fitting lognormal distributions to observed data by half year --------------------

@@ -29,32 +29,20 @@ explore = function(){
 
 BL  = function(x, Data, reps=1, BLim=3, RecPerc=0.6,
                Fdisc = 0.05, varfac = 1, maxVar = Inf,
-               datname="CRFS_PR", yrange = 2015:2019,
+               yrange = 2015:2019,
                CRref = 2.393813, FMSYfrac = 1, MinSz = 55,
                seed=T){
 
-  mus = list()
-  mus [["LB_PC"]] = c(-0.7649721, -1.4862156)
-  mus [["CRFS_PC"]] = c(-1.068589, -1.601482)
-  mus [["CRFS_PR"]] = c(-0.001212253, -4.171962267)
-
-  covars = list()  # parameter 1 is alpha, parameter 2 is CV
-  covars[["LB_PC"]] =  matrix(c(0.03093144, -0.01888812,  -0.01888812,  0.02054848),byrow=T,nrow=2)
-  covars[["CRFS_PC"]] =  matrix(c(0.12265755, -0.06664325, -0.06664325,  0.06775760),byrow=T,nrow=2)
-  covars[["CRFS_PR"]] =  matrix(c( 0.00795155, -0.2714206, -0.27142060, 10.1322595),byrow=T,nrow=2)
-
-  mu = mus[match(datname, names(mus))][[1]]
-  covar = covars[match(datname, names(covars))][[1]]
+  mu =  c(-0.3032113, -2.2010939)
+  covar=  matrix(c(0.004421152, -0.008487349,  -0.008487349,  0.038828797),byrow=T,nrow=2)
   diag(covar) = diag(covar)*varfac
   diag(covar)[diag(covar)>maxVar] = maxVar
   if(seed)set.seed(x) # select the same model parameters for each simulation
   pars = as.vector(mvtnorm::rmvnorm(1,mu,covar))
-  qs = CRref / mean(Data@VInd[x,Data@Year%in%yrange])
-  thisyr = dim(Data@VInd)[2]
-  CRvec = Data@VInd[x,thisyr]*qs
+  qs = CRref / mean(Data@Ind[x,Data@Year%in%yrange])
+  thisyr = dim(Data@Ind)[2]
+  CRvec = Data@Ind[x,thisyr]*qs
   RR = RRlnV(BL = BLim,CRvec=CRvec, CV = exp(pars[1]),V=ilogit(pars[2]))
-  #lines(CRvec,RR)
-
   FMSYeffort = FMSYref(x,Data,reps=1)@Effort
 
   Rec=new('Rec')
@@ -76,6 +64,24 @@ formals(BL_4)$BLim = 4
 formals(BL_5)$BLim = 5
 formals(BL_6)$BLim = 6
 class(BL_1) = class(BL_2) = class(BL_3) = class(BL_4) = class(BL_5) = class(BL_6) = "MP"
+
+getcalib = function(){
+  MSE_H = readRDS(paste0(Hd,"MSE_N.rda"))
+  MSE_H_D = readRDS(paste0(Hd,"MSE_N_D.rda"))
+  yind = match(2015:2019,MSE_H@PPD[[1]]@Year)
+  Ind = MSE_H@PPD[[1]]@Ind[1,yind]
+  Ind_D = MSE_H_D@PPD[[1]]@Ind[1,yind]
+  CR_inflate = mean(Ind)/mean(Ind_D) # 1.2011
+
+}
+
+BL_3_ND = BL_3 # non depleted MP has twice the reference catch rate
+formals(BL_3_ND)$CRref = formals(BL_3)$CRref*1.6
+class(BL_3_ND) = "MP"
+
+
+
+
 
 E_7 = E_8 = E_9 = E_10 = E_11 = E_12 = BL
 formals(E_7)$FMSYfrac = 0.7

@@ -50,7 +50,7 @@ library(DT)
 
 knitr::opts_chunk$set(echo = FALSE)
 # setwd("C:/Users/tcarruth/Documents/Github/CaliBL/docs")
-
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
 
 getprojectinfo<-function(page,addcol=F,dummy=F){
   tab=as.data.frame(read_excel("Project_Info/Status Assumptions To do.xlsx", sheet = page))
@@ -356,29 +356,53 @@ The code has been organized in a dedicated R package hosted on a public GitHub r
 Installation:
 
 ```{r packageinstall,echo=T, eval=FALSE}
-install.packages(openMSE)
-install.packages(devtools)
-devtools::install_github('blue-matter/CaliBL')
+install.packages('openMSE')
+remotes::install_github('blue-matter/CaliBL')
 packageVersion('CaliBL')
 
 ```
 
-Run the example code to produce the plots above:
+An small simulation version of the operating models is available to demonstrate how to run the CaliBL code: 
 
 ```{r rundemo,echo=T, eval=FALSE}
 library(CaliBL)
 
-avail('MP') # black rockfish MPs are denoted BRF
-avail('OM') # halibut operating models are H_, black rockfish are BRF_
-
+# Halibut
 MSE_halibut = Project(H_N_small,c("BL_2","BL_4","BL_6")) # project 2, 4 and 6 bag limits for halibut
-Pplot(MSEobj,maxsims=50)              
-TradePlot(MSEobj,"P50","Yield")     
 
-MSE_BRF = Project(BRF_N_small,c("BL_BRF_2","BL_BRF_4","BL_BRF_6")) # project 2, 4 and 6 bag limits for black rockfish
+# Black Rockfish
+MSE_BRF = Project(BRF_N_small, c("BL_BRF_2", "BL_BRF_4", "BL_BRF_6")) # project 2, 4 and 6 bag limits for black rockfish
 
 
 ```
+
+
+```{r saveresults,echo=F, eval=F}
+# here you can save these tothe package for use in this document later
+save(MSE_halibut,file = "C:/GitHub/CaliBL/data/MSE_halibut.RData")
+save(MSE_BRF,file = "C:/GitHub/CaliBL/data/MSE_BRF.RData")
+```
+
+```{r setup R package,echo=F, eval=T}
+
+library(CaliBL)
+```
+
+The results of these MSE analyses can be presented in a number of ways: 
+
+
+```{r plotresultsdemo1,echo=T, eval=T}
+Splot(MSE_halibut)              
+ 
+```
+
+```{r plotresultsdemo3,echo=T, eval=T}
+Splot(MSE_BRF)              
+
+```
+
+
+
 
 
 ***

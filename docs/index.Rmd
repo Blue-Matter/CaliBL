@@ -198,11 +198,13 @@ For both the halibut and black rockfish case studies there were six methodologic
 
 4) Codify those bag limit models into management procedures
 
-5) Specify fishery operating models based on empirical stock assessments (a plausible hypothesis for fishery and population dynamics) and also alternatives for robustness/ sensitivity testing. 
+5) Specify fishery operating models based on empirical stock assessments (a plausible hypothesis for fishery and population dynamics) and also alternatives for robustness/ sensitivity testing. The SS3 report of the Base assessment run for Northern Halibut is available [here](Assessment/SS_output.html) the model files are available [here](Assessment/SS3_NHalibut.zip). The stock assessment for Black Rockfish is available from the [PFMC](https://www.pcouncil.org/documents/2023/08/black-rockfish-in-california-stock-stock-assessment-executive-summary-post-star-panel.pdf)
 
 6) Conduct closed-loop (MSE-style) projections of various management options including alternative bag-limits to evaluate their properties and efficacy. 
 
 &nbsp;
+
+
 
 ### Results
 
